@@ -144,15 +144,3 @@ pytest -v
 flake8 .
 ```
 
-## Git
-Перед началом преобразования проекта в объектную модель была создана
-контрольная точка в Git (`PR3: подготовка проекта к переходу на ООП`).
-Результат ПР3 фиксируется отдельными коммитами с меткой `PR3:` в начале
-сообщения, например:
-```text
-PR3: add Attraction class
-PR3: adapt attractions.py collection functions
-PR3: adapt storage.py to object model
-PR3: update tests for Attraction
-PR3: update README
-```

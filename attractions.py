@@ -1,5 +1,3 @@
-"""Класс Attraction и функции работы с коллекцией достопримечательностей."""
-
 from datetime import datetime
 from typing import List
 
@@ -35,12 +33,7 @@ class Attraction:
         has_discount: bool,
         discount_percent: int = 20,
     ) -> float:
-        """Рассчитать цену билета с учётом скидки.
 
-        Метод статический: расчёт не привязан к атрибутам конкретного
-        объекта — пользователь может ввести произвольную базовую цену,
-        не связанную ни с одной сохранённой достопримечательностью.
-        """
         if has_discount:
             return round(base_price - base_price * discount_percent / 100, 2)
         return round(base_price, 2)

@@ -1,5 +1,3 @@
-"""Сервис поиска достопримечательностей — точка запуска программы."""
-
 from typing import List
 
 from attractions import (

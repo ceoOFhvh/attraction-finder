@@ -22,5 +22,13 @@
         "open_hour": 11,
         "close_hour": 19,
         "price": 250.0
+    },
+    {
+        "id": 4,
+        "name": "Эрмитаж",
+        "category": "музей",
+        "open_hour": 10,
+        "close_hour": 18,
+        "price": 1000
     }
 ]

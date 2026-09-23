@@ -1,5 +1,3 @@
-"""Функции сохранения и загрузки данных приложения."""
-
 import json
 from typing import List
 

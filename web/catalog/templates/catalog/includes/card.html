@@ -1,0 +1,10 @@
+<article class="card">
+  <div class="card-top"><span class="category-label">{{ attraction.category|default:"Без категории"|capfirst }}</span><span class="place-number">№ {{ attraction.id }}</span></div>
+  <h3><a href="{% url 'catalog:detail' attraction.id %}">{{ attraction.name|truncatechars:65 }}</a></h3>
+  <p class="muted">{{ attraction.open_hour|stringformat:"02d" }}:00 — {{ attraction.close_hour|stringformat:"02d" }}:00</p>
+  {% include "catalog/includes/status.html" with attraction=attraction only %}
+  <div class="card-bottom">
+    <strong>{% if attraction.price == 0 %}Бесплатно{% else %}{{ attraction.price|floatformat:2 }} ₽{% endif %}</strong>
+    <a href="{% url 'catalog:detail' attraction.id %}" aria-label="Подробнее: {{ attraction.name }}">Подробнее ↗</a>
+  </div>
+</article>

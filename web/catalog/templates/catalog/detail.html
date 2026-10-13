@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ attraction.name }}{% endblock %}
+{% block content %}
+  <a class="back-link" href="{% url 'catalog:list' %}">← Все места</a>
+  <section class="detail-panel">
+    <p class="eyebrow">{{ attraction.category|default:"Без категории"|capfirst }}</p>
+    <h1>{{ attraction.name }}</h1>
+    {% include "catalog/includes/status.html" with attraction=attraction only %}
+    <dl class="facts">
+      <div><dt>Время работы</dt><dd>{{ attraction.open_hour|stringformat:"02d" }}:00 — {{ attraction.close_hour|stringformat:"02d" }}:00</dd></div>
+      <div><dt>Стоимость посещения</dt><dd>{% if attraction.price == 0 %}Бесплатно{% else %}{{ attraction.price|floatformat:2 }} ₽{% endif %}</dd></div>
+      <div><dt>Категория</dt><dd>{% if attraction.category %}<a href="{% url 'categories:detail' attraction.category %}">{{ attraction.category|capfirst }}</a>{% else %}Не указана{% endif %}</dd></div>
+    </dl>
+    <p class="muted">Статус рассчитывается по часам работы и локальному времени компьютера, на котором запущен сервер.</p>
+  </section>
+{% endblock %}

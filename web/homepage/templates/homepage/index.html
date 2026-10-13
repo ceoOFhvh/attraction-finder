@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Откройте свой город{% endblock %}
+{% block content %}
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Маленькое путешествие начинается рядом</p>
+      <h1>Знакомые улицы.<br>Новые впечатления.</h1>
+      <p class="hero-copy">Музеи, парки и галереи — выбирайте, куда отправиться сегодня. Часы работы и стоимость в одном месте.</p>
+      <a class="button" href="{% url 'catalog:list' %}">Найти интересное место <span aria-hidden="true">↗</span></a>
+      <p class="muted">Сегодня {{ today|date:"j E Y" }}</p>
+    </div>
+    <img class="hero-art" src="{% static 'img/city.svg' %}" alt="Иллюстрация города: музей и деревья" width="520" height="360">
+  </section>
+  <div class="stats">
+    <div><strong>{{ attractions|length }}</strong><span>мест в каталоге</span></div>
+    <div><strong>{{ categories|length }}</strong><span>категории для прогулки</span></div>
+    <div><strong>Ваш темп</strong><span>ваш маршрут по городу</span></div>
+  </div>
+  <section>
+    <div class="section-heading"><h2>Начните с этих мест</h2><a href="{% url 'catalog:list' %}">Все места →</a></div>
+    <div class="card-grid">
+      {% for attraction in attractions|slice:":3" %}
+        {% include "catalog/includes/card.html" with attraction=attraction only %}
+      {% empty %}
+        <p class="empty-state">В каталоге пока нет достопримечательностей.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

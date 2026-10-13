@@ -1,0 +1,71 @@
+Проверка итогового проекта ПР6
+Python 3.12.14
+
+$ python manage.py check
+System check identified no issues (0 silenced).
+
+
+Exit code: 0
+
+$ python -m pytest -v
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\lal50\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe
+cachedir: .pytest_cache
+django: version: 5.2.18, settings: config.settings (from ini)
+rootdir: C:\Users\lal50\Documents\Codex\2026-10-13\new-chat\outputs\attraction-finder-pr6
+configfile: pytest.ini
+testpaths: tests
+plugins: django-4.14.0
+collecting ... collected 35 items
+
+tests/test_attractions.py::test_attraction_creation PASSED               [  2%]
+tests/test_attractions.py::test_attraction_str_contains_name PASSED      [  5%]
+tests/test_attractions.py::test_attraction_is_open_now PASSED            [  8%]
+tests/test_attractions.py::test_attraction_from_data_and_to_dict PASSED  [ 11%]
+tests/test_attractions.py::test_add_attraction PASSED                    [ 14%]
+tests/test_attractions.py::test_find_attraction PASSED                   [ 17%]
+tests/test_attractions.py::test_filter_by_category PASSED                [ 20%]
+tests/test_attractions.py::test_sort_attractions_by_price PASSED         [ 22%]
+tests/test_attractions.py::test_calculate_price_with_discount PASSED     [ 25%]
+tests/test_attractions.py::test_calculate_price_without_discount PASSED  [ 28%]
+tests/test_storage.py::test_storage_roundtrip PASSED                     [ 31%]
+tests/test_storage.py::test_broken_json PASSED                           [ 34%]
+tests/test_storage.py::test_console_can_list_and_exit PASSED             [ 37%]
+tests/test_web.py::test_pages[homepage:index-args0-homepage/index.html] PASSED [ 40%]
+tests/test_web.py::test_pages[catalog:list-args1-catalog/list.html] PASSED [ 42%]
+tests/test_web.py::test_pages[catalog:detail-args2-catalog/detail.html] PASSED [ 45%]
+tests/test_web.py::test_pages[categories:list-args3-categories/list.html] PASSED [ 48%]
+tests/test_web.py::test_pages[categories:detail-args4-categories/detail.html] PASSED [ 51%]
+tests/test_web.py::test_not_found[/attractions/999/] PASSED              [ 54%]
+tests/test_web.py::test_not_found[/attractions/no-number/] PASSED        [ 57%]
+tests/test_web.py::test_not_found[/categories/unknown/] PASSED           [ 60%]
+tests/test_web.py::test_not_found[/missing/] PASSED                      [ 62%]
+tests/test_web.py::test_empty_lists[/-\u0412 \u043a\u0430\u0442\u0430\u043b\u043e\u0433\u0435 \u043f\u043e\u043a\u0430 \u043d\u0435\u0442] PASSED [ 65%]
+tests/test_web.py::test_empty_lists[/attractions/-\u0412 \u043a\u0430\u0442\u0430\u043b\u043e\u0433\u0435 \u043f\u043e\u043a\u0430 \u043d\u0435\u0442] PASSED [ 68%]
+tests/test_web.py::test_empty_lists[/categories/-\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u043f\u043e\u044f\u0432\u044f\u0442\u0441\u044f] PASSED [ 71%]
+tests/test_web.py::test_data_reloaded_and_escaped PASSED                 [ 74%]
+tests/test_web.py::test_price_sort_and_free_label PASSED                 [ 77%]
+tests/test_web.py::test_category_contains_only_matching_places PASSED    [ 80%]
+tests/test_web.py::test_open_status[10-\u041e\u0442\u043a\u0440\u044b\u0442\u043e \u0441\u0435\u0439\u0447\u0430\u0441] PASSED [ 82%]
+tests/test_web.py::test_open_status[17-\u041e\u0442\u043a\u0440\u044b\u0442\u043e \u0441\u0435\u0439\u0447\u0430\u0441] PASSED [ 85%]
+tests/test_web.py::test_open_status[18-\u0421\u0435\u0439\u0447\u0430\u0441 \u0437\u0430\u043a\u0440\u044b\u0442\u043e] PASSED [ 88%]
+tests/test_web.py::test_open_status[9-\u0421\u0435\u0439\u0447\u0430\u0441 \u0437\u0430\u043a\u0440\u044b\u0442\u043e] PASSED [ 91%]
+tests/test_web.py::test_requests_do_not_modify_json PASSED               [ 94%]
+tests/test_web.py::test_missing_file_is_empty_catalog PASSED             [ 97%]
+tests/test_web.py::test_static_assets_are_found PASSED                   [100%]
+
+============================= 35 passed in 0.55s ==============================
+
+
+Exit code: 0
+
+$ python -m flake8 .
+
+
+Exit code: 0
+
+JSON: побайтово совпадает с исходным архивом.
+Chrome: 5 страниц при 1440px и 5 при 390px; горизонтального переполнения нет.
+JavaScript: фильтр скрывает закрытые места, повторное нажатие восстанавливает список.
+Ошибки JavaScript и загрузки ресурсов при проверке: 0.
+Скриншоты: docs/screenshots/.

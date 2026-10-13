@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Город рядом{% endblock %} · Attraction Finder</title>
+    <link rel="icon" href="{% static 'img/logo.svg' %}" type="image/svg+xml">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/main.js' %}" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Перейти к содержимому</a>
+    {% include "includes/navigation.html" %}
+    <main id="content" class="container">
+      {% block content %}{% endblock %}
+    </main>
+    {% include "includes/footer.html" %}
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{% load static %}
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="{% url 'homepage:index' %}">
+      <img src="{% static 'img/logo.svg' %}" width="38" height="38" alt="">
+      Город рядом
+    </a>
+    <nav aria-label="Основная навигация">
+      <a href="{% url 'homepage:index' %}"{% if request.resolver_match.namespace == 'homepage' %} aria-current="page"{% endif %}>Главная</a>
+      <a href="{% url 'catalog:list' %}"{% if request.resolver_match.namespace == 'catalog' %} aria-current="page"{% endif %}>Места</a>
+      <a href="{% url 'categories:list' %}"{% if request.resolver_match.namespace == 'categories' %} aria-current="page"{% endif %}>Категории</a>
+    </nav>
+  </div>
+</header>

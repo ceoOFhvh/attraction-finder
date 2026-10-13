@@ -1,7 +1,7 @@
 import json
 from typing import List
 
-from attractions import Attraction
+from core.attractions import Attraction
 
 
 def load_attractions(filename: str) -> List[Attraction]:

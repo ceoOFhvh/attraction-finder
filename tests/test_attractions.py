@@ -1,7 +1,7 @@
 from datetime import datetime
 from unittest.mock import patch
 
-from attractions import (
+from core.attractions import (
     Attraction,
     add_attraction,
     filter_by_category,
@@ -27,7 +27,7 @@ def test_attraction_str_contains_name():
 
 def test_attraction_is_open_now():
     attraction = Attraction(1, "Музей", "музей", 10, 18, 300.0)
-    with patch("attractions.datetime") as mock_datetime:
+    with patch("core.attractions.datetime") as mock_datetime:
         mock_datetime.now.return_value = datetime(2026, 9, 22, 12, 0)
         assert attraction.is_open_now()
 

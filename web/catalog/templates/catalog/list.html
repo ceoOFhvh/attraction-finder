@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Места в городе{% endblock %}
+{% block content %}
+  <div class="page-heading"><p class="eyebrow">Исследуйте город</p><h1>Места для новых впечатлений</h1><p class="muted">В каталоге: {{ attractions|length }}. Выберите своё следующее открытие.</p></div>
+  <div class="toolbar">
+    <p>Сортировка:
+      <a href="{% url 'catalog:list' %}"{% if sort == 'name' %} aria-current="true"{% endif %}>По названию</a>
+      <a href="{% url 'catalog:list' %}?sort=price"{% if sort == 'price' %} aria-current="true"{% endif %}>По цене</a>
+    </p>
+    <button class="button-secondary" id="open-only" type="button" aria-pressed="false" hidden>Только открытые сейчас</button>
+  </div>
+  <div class="card-grid" id="places">
+    {% for attraction in attractions %}
+      {% include "catalog/includes/card.html" with attraction=attraction only %}
+    {% empty %}
+      <p class="empty-state">В каталоге пока нет достопримечательностей.</p>
+    {% endfor %}
+  </div>
+  <p id="no-open-places" class="empty-state" role="status" hidden>Сейчас все места закрыты. Посмотрите часы работы в карточках.</p>
+  <noscript><p class="muted">Фильтр открытых мест доступен при включённом JavaScript.</p></noscript>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Страница не найдена{% endblock %}
+{% block content %}
+  <section class="empty-state">
+    <p class="eyebrow">Ошибка 404</p>
+    <h1>Здесь пока ничего нет</h1>
+    <p>Проверьте адрес или выберите место из каталога.</p>
+    <a class="button" href="{% url 'catalog:list' %}">Открыть каталог</a>
+  </section>
+{% endblock %}

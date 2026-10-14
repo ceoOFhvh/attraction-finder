@@ -9,3 +9,4 @@ htmlcov/
 .env
 *.sqlite3
 staticfiles/
+.pytest_tmp/

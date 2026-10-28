@@ -10,6 +10,7 @@
     <h1>{{ attraction.name }}</h1>
     <p>Проверка : [{{ missing_variable }}]</p>
     {% include "catalog/includes/status.html" with attraction=attraction only %}
+    <p>{{ attraction.description|default:"Описание пока не добавлено." }}</p>
     <dl class="facts">
       <div><dt>Время работы</dt><dd>{{ attraction.open_hour|stringformat:"02d" }}:00 — {{ attraction.close_hour|stringformat:"02d" }}:00</dd></div>
       <div><dt>Стоимость посещения</dt><dd>{% if attraction.price == 0 %}Бесплатно{% else %}{{ attraction.price|floatformat:2 }} ₽{% endif %}</dd></div>

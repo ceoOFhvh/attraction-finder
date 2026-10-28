@@ -60,3 +60,18 @@ dd { margin: 6px 0 0; font-weight: 650; font-size: 21px; }
 .skip-link:focus { top: 10px; }
 @media (max-width: 800px) { .hero { grid-template-columns: 1fr; } .hero-art { max-width: 440px; justify-self: center; } .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .header-inner { flex-wrap: wrap; padding-block: 18px; } .facts { grid-template-columns: 1fr; } }
 @media (max-width: 540px) { .container { width: calc(100% - 32px); } .card-grid { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr; gap: 14px; } .hero { padding-top: 36px; } nav { gap: 22px; } .site-footer { flex-direction: column; } .section-heading { flex-wrap: wrap; margin-bottom: 20px; } .section-heading h2 { margin: 0; } .detail-panel { padding: 24px; } }
+
+/* ПР7: поиск, статистика и расширенное меню. */
+nav { flex-wrap: wrap; gap: 16px; }
+.header-inner { flex-wrap: wrap; padding-block: 14px; }
+.search-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; padding: 24px; background: #e9eedf; border-radius: 12px; margin-bottom: 32px; }
+label { display: flex; flex-direction: column; gap: 6px; }
+input, select { min-width: 0; max-width: 100%; font: inherit; padding: 10px; border: 1px solid #91a785; border-radius: 6px; color: var(--ink); background: #fffdf8; }
+.search-form .button { border: 0; margin: 0; justify-content: center; }
+.form-error { color: #9b2525; padding: 12px 0; }
+.table-scroll { overflow-x: auto; margin-bottom: 32px; }
+table { width: 100%; border-collapse: collapse; background: #fffdf8; }
+th, td { padding: 14px; border-bottom: 1px solid var(--line); text-align: left; }
+th { background: #e9eedf; }
+.spaced-heading { margin-top: 36px; }
+@media (max-width: 540px) { .search-form { grid-template-columns: 1fr; padding: 18px; } nav { gap: 14px; } }

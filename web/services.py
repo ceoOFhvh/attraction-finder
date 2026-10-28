@@ -1,22 +1,19 @@
-"""Связь Django с сохранённой предметной моделью ПР3."""
-from django.conf import settings
+"""Получение строк SQLite для представлений Django."""
+from datetime import datetime
 
-from core.storage import load_attractions
-
-
-def get_attractions():
-    """Читать JSON заново при каждом запросе, не меняя его содержимое."""
-    return load_attractions(settings.DATA_FILE)
+from db.queries import fetch_all
 
 
-def get_categories(attractions):
-    """Собрать категории из реальных объектов, без отдельного хранилища."""
-    groups = {}
-    for item in attractions:
-        name = item.category.strip()
-        if not name:
-            continue
-        key = name.casefold()
-        group = groups.setdefault(key, {"name": name, "items": []})
-        group["items"].append(item)
-    return sorted(groups.values(), key=lambda group: group["name"].casefold())
+def current_hour():
+    # Сохраняем локальное время сервера, как в консольном методе ПР3.
+    return datetime.now().hour
+
+
+def hour_parameters():
+    hour = current_hour()
+    return (hour, hour)
+
+
+def get_attractions(sort="name"):
+    query = "catalog_price" if sort == "price" else "catalog_name"
+    return fetch_all(query, hour_parameters())

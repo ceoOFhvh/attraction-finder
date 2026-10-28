@@ -1,4 +1,4 @@
-"""Настройки учебного проекта: JSON, без базы данных и ORM."""
+"""ПР7: веб-данные в SQLite через sqlite3, без Django ORM."""
 import os
 from pathlib import Path
 
@@ -38,3 +38,5 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 DATA_FILE = BASE_DIR / "data" / "attractions.json"
+
+SQLITE_PATH = BASE_DIR / "data" / "attractions.sqlite"

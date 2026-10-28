@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Статистика каталога{% endblock %}
+{% block content %}
+  <div class="page-heading"><p class="eyebrow">Город в цифрах</p><h1>Статистика каталога</h1></div>
+  <div class="stats">
+    <div><strong>{{ overview.total }}</strong><span>всего мест</span></div>
+    <div><strong>{{ free.total }}</strong><span>с бесплатным входом</span></div>
+    <div><strong>{{ overview.avg_price|floatformat:2|default:"—" }}</strong><span>средняя цена, ₽</span></div>
+  </div>
+  <p>Минимальная цена: {{ overview.min_price|floatformat:2|default:"—" }} ₽.
+    Максимальная: {{ overview.max_price|floatformat:2|default:"—" }} ₽.
+    Суммарная стоимость по одному билету в каждое место: {{ overview.total_price|floatformat:2 }} ₽.
+    Мест с заполненным описанием: {{ overview.described }}.</p>
+  <h2>По категориям</h2>
+  <div class="table-scroll"><table>
+    <thead><tr><th>Категория</th><th>Мест</th><th>От, ₽</th><th>До, ₽</th><th>Средняя цена, ₽</th></tr></thead>
+    <tbody>{% for category in categories %}
+      <tr><td><a href="{% url 'categories:detail' category.name %}">{{ category.name|capfirst }}</a></td>
+        <td>{{ category.places_count }}</td><td>{{ category.min_price|floatformat:2|default:"—" }}</td>
+        <td>{{ category.max_price|floatformat:2|default:"—" }}</td><td>{{ category.avg_price|floatformat:2|default:"—" }}</td></tr>
+    {% empty %}<tr><td colspan="5">Категорий пока нет.</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <h2>Стоимость посещения</h2>
+  <div class="card-grid">{% for group in price_groups %}
+    <article class="card"><h3>{{ group.label }}</h3><p>Мест: {{ group.places_count }}</p><p>Средняя цена: {{ group.avg_price|floatformat:2 }} ₽</p></article>
+  {% empty %}<p class="empty-state">В каталоге пока нет мест.</p>{% endfor %}</div>
+  <h2 class="spaced-heading">Категории с большим выбором</h2>
+  <form class="toolbar" method="get" action="{% url 'catalog:statistics' %}">
+    <label>Показать категории, где мест больше чем <input type="number" name="threshold" min="0" max="1000000" value="{{ threshold }}" required></label>
+    <button type="submit" class="button-secondary">Показать</button>
+  </form>
+  {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% else %}
+    <ul>{% for category in popular %}
+      <li><a href="{% url 'categories:detail' category.name %}">{{ category.name|capfirst }}</a> — {{ category.places_count }}</li>
+    {% empty %}<li>Категорий с таким количеством мест нет.</li>{% endfor %}</ul>
+  {% endif %}
+{% endblock %}

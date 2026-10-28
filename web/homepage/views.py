@@ -1,17 +1,17 @@
 from django.shortcuts import render
 from django.utils import timezone
 
-from web.services import get_attractions, get_categories
+from db.queries import fetch_all, fetch_one
+from web.services import hour_parameters
 
 
 def index(request):
-    attractions = get_attractions()
-    context = {
-        "attractions": attractions,
-        "categories": get_categories(attractions),
+    return render(request, "homepage/index.html", {
+        "attractions": fetch_all("home_preview", hour_parameters() + (3, 0)),
+        "categories": fetch_all("category_list"),
+        "overview": fetch_one("overview"),
         "today": timezone.localdate(),
-    }
-    return render(request, "homepage/index.html", context)
+    })
 
 
 def not_found(request, exception):

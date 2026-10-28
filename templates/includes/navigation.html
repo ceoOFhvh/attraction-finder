@@ -9,6 +9,9 @@
       <a href="{% url 'homepage:index' %}"{% if request.resolver_match.namespace == 'homepage' %} aria-current="page"{% endif %}>Главная</a>
       <a href="{% url 'catalog:list' %}"{% if request.resolver_match.namespace == 'catalog' %} aria-current="page"{% endif %}>Места</a>
       <a href="{% url 'categories:list' %}"{% if request.resolver_match.namespace == 'categories' %} aria-current="page"{% endif %}>Категории</a>
+      <a href="{% url 'catalog:search' %}">Поиск</a>
+      <a href="{% url 'catalog:free' %}">Бесплатно</a>
+      <a href="{% url 'catalog:statistics' %}">Статистика</a>
     </nav>
   </div>
 </header>

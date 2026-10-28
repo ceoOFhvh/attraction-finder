@@ -4,7 +4,7 @@
   <div class="page-heading"><p class="eyebrow">Выберите настроение</p><h1>Как проведём день?</h1><p class="muted">Категорий в каталоге: {{ categories|length }}.</p></div>
   <div class="card-grid">
     {% for category in categories %}
-      <article class="card category-card"><span class="place-number">0{{ forloop.counter }}</span><h2><a href="{% url 'categories:detail' category.name %}">{{ category.name|capfirst }}</a></h2><p class="muted">Мест: {{ category.items|length }}</p><a href="{% url 'categories:detail' category.name %}">Посмотреть места →</a></article>
+      <article class="card category-card"><span class="place-number">0{{ forloop.counter }}</span><h2><a href="{% url 'categories:detail' category.name %}">{{ category.name|capfirst }}</a></h2><p class="muted">Мест: {{ category.places_count }}</p><a href="{% url 'categories:detail' category.name %}">Посмотреть места →</a></article>
     {% empty %}
       <p class="empty-state">Категории появятся после добавления достопримечательностей.</p>
     {% endfor %}

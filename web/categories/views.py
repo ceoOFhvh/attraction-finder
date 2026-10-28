@@ -1,21 +1,23 @@
 from django.http import Http404
 from django.shortcuts import render
 
-from web.services import get_attractions, get_categories
+from db.queries import fetch_all, fetch_one
+from web.services import hour_parameters
 
 
 def category_list(request):
     return render(request, "categories/list.html", {
-        "categories": get_categories(get_attractions()),
+        "categories": fetch_all("category_stats"),
     })
 
 
 def category_detail(request, category_name):
-    category = next(
-        (group for group in get_categories(get_attractions())
-         if group["name"].casefold() == category_name.casefold()),
-        None,
-    )
+    category = fetch_one("category_detail", (category_name.casefold(),))
     if category is None:
         raise Http404("Категория не найдена")
-    return render(request, "categories/detail.html", {"category": category})
+    return render(request, "categories/detail.html", {
+        "category": category,
+        "attractions": fetch_all(
+            "category_places", hour_parameters() + (category["id"],),
+        ),
+    })

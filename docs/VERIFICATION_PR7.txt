@@ -1,0 +1,76 @@
+Проверка ПР7 — 28.10.2026
+Рабочий проект: attracrion-finder
+
+Проверено в установленной .venv пользователя (Python 3.11):
+python -m db.import_json: импортировано 4 записи.
+python manage.py check: System check identified no issues (0 silenced).
+python -m pytest -q -p no:cacheprovider --basetemp=<временная папка проверки>:
+62 passed in 1.60s.
+python -m flake8 .: код завершения 0, замечаний нет.
+
+Браузер Chrome: 9 страниц на компьютере и телефоне; поиск и HAVING проверены.
+Горизонтального переполнения, ошибок загрузки ресурсов и JavaScript нет.
+Отчёт DOCX: экспортирован через Word, визуально проверены все 3 страницы.
+Исходные core, cli и JSON побайтно совпадают с резервной копией ПР6.
+
+Ниже — фактический вывод всех 14 запросов на установленной базе.
+CLI sqlite3 запускался встроенным Python 3.12, так как в Python 3.11 его нет.
+
+catalog_name — строк: 4
+{'id': 1, 'name': 'Городской краеведческий музей', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 350.0, 'description': None, 'is_open_now': 1}
+{'id': 3, 'name': 'Художественная галерея', 'category': 'музей', 'category_id': 1, 'open_hour': 11, 'close_hour': 19, 'price': 250.0, 'description': None, 'is_open_now': 1}
+{'id': 2, 'name': 'Центральный парк', 'category': 'парк', 'category_id': 2, 'open_hour': 6, 'close_hour': 23, 'price': 0.0, 'description': None, 'is_open_now': 1}
+{'id': 4, 'name': 'Эрмитаж', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 1000.0, 'description': None, 'is_open_now': 1}
+CLI: OK
+catalog_price — строк: 4
+{'id': 2, 'name': 'Центральный парк', 'category': 'парк', 'category_id': 2, 'open_hour': 6, 'close_hour': 23, 'price': 0.0, 'description': None, 'is_open_now': 1}
+{'id': 3, 'name': 'Художественная галерея', 'category': 'музей', 'category_id': 1, 'open_hour': 11, 'close_hour': 19, 'price': 250.0, 'description': None, 'is_open_now': 1}
+{'id': 1, 'name': 'Городской краеведческий музей', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 350.0, 'description': None, 'is_open_now': 1}
+{'id': 4, 'name': 'Эрмитаж', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 1000.0, 'description': None, 'is_open_now': 1}
+CLI: OK
+category_list — строк: 2
+{'id': 1, 'name': 'музей'}
+{'id': 2, 'name': 'парк'}
+CLI: OK
+detail — строк: 1
+{'id': 1, 'name': 'Городской краеведческий музей', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 350.0, 'description': None, 'is_open_now': 1}
+CLI: OK
+free_places — строк: 1
+{'id': 2, 'name': 'Центральный парк', 'category': 'парк', 'category_id': 2, 'open_hour': 6, 'close_hour': 23, 'price': 0.0, 'description': None, 'is_open_now': 1}
+CLI: OK
+search — строк: 3
+{'id': 2, 'name': 'Центральный парк', 'category': 'парк', 'category_id': 2, 'open_hour': 6, 'close_hour': 23, 'price': 0.0, 'description': None, 'is_open_now': 1}
+{'id': 3, 'name': 'Художественная галерея', 'category': 'музей', 'category_id': 1, 'open_hour': 11, 'close_hour': 19, 'price': 250.0, 'description': None, 'is_open_now': 1}
+{'id': 1, 'name': 'Городской краеведческий музей', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 350.0, 'description': None, 'is_open_now': 1}
+CLI: OK
+category_detail — строк: 1
+{'id': 1, 'name': 'музей'}
+CLI: OK
+category_places — строк: 3
+{'id': 1, 'name': 'Городской краеведческий музей', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 350.0, 'description': None, 'is_open_now': 1}
+{'id': 3, 'name': 'Художественная галерея', 'category': 'музей', 'category_id': 1, 'open_hour': 11, 'close_hour': 19, 'price': 250.0, 'description': None, 'is_open_now': 1}
+{'id': 4, 'name': 'Эрмитаж', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 1000.0, 'description': None, 'is_open_now': 1}
+CLI: OK
+overview — строк: 1
+{'total': 4, 'described': 0, 'min_price': 0.0, 'max_price': 1000.0, 'avg_price': 400.0, 'total_price': 1600.0}
+CLI: OK
+free_count — строк: 1
+{'total': 1}
+CLI: OK
+category_stats — строк: 2
+{'id': 1, 'name': 'музей', 'places_count': 3, 'min_price': 250.0, 'max_price': 1000.0, 'avg_price': 533.3333333333334}
+{'id': 2, 'name': 'парк', 'places_count': 1, 'min_price': 0.0, 'max_price': 0.0, 'avg_price': 0.0}
+CLI: OK
+price_groups — строк: 2
+{'label': 'Бесплатно', 'places_count': 1, 'avg_price': 0.0}
+{'label': 'Платно', 'places_count': 3, 'avg_price': 533.3333333333334}
+CLI: OK
+popular_categories — строк: 1
+{'id': 1, 'name': 'музей', 'places_count': 3}
+CLI: OK
+home_preview — строк: 3
+{'id': 1, 'name': 'Городской краеведческий музей', 'category': 'музей', 'category_id': 1, 'open_hour': 10, 'close_hour': 18, 'price': 350.0, 'description': None, 'is_open_now': 1}
+{'id': 2, 'name': 'Центральный парк', 'category': 'парк', 'category_id': 2, 'open_hour': 6, 'close_hour': 23, 'price': 0.0, 'description': None, 'is_open_now': 1}
+{'id': 3, 'name': 'Художественная галерея', 'category': 'музей', 'category_id': 1, 'open_hour': 11, 'close_hour': 19, 'price': 250.0, 'description': None, 'is_open_now': 1}
+CLI: OK
+Проверены все 14 запросов.

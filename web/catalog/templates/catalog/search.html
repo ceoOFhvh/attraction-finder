@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Подобрать место{% endblock %}
+{% block content %}
+  <div class="page-heading">
+    <p class="eyebrow">Спланируйте прогулку</p><h1>Куда отправимся?</h1>
+    <p class="muted">Выберите бюджет и час посещения. Время указано по часам сервера; расписание одинаковое каждый день.</p>
+  </div>
+  <form class="search-form" method="get" action="{% url 'catalog:search' %}">
+    <label>Название<input name="q" value="{{ values.q }}" placeholder="Например, музей"></label>
+    <label>Категория<select name="category">
+      <option value="">Все категории</option>
+      {% for category in categories %}
+        <option value="{{ category.id }}"{% if values.category == category.id|stringformat:"s" %} selected{% endif %}>{{ category.name|capfirst }}</option>
+      {% endfor %}
+    </select></label>
+    <label>Бюджет до, ₽<input type="number" min="0" step="0.01" name="budget" value="{{ values.budget }}" placeholder="Без ограничения"></label>
+    <label>Час посещения<input type="number" min="0" max="23" name="hour" value="{{ values.hour }}" placeholder="От 0 до 23"></label>
+    <button class="button" type="submit">Найти места</button>
+    <a href="{% url 'catalog:search' %}">Сбросить</a>
+  </form>
+  {% for error in errors %}<p class="form-error" role="alert">{{ error }}</p>{% endfor %}
+  {% if not errors %}
+    <h2>Найдено мест: {{ attractions|length }}</h2>
+    <p class="muted">Статус на карточке относится к текущему времени, а результаты учитывают выбранный час посещения.</p>
+    <div class="card-grid">
+      {% for attraction in attractions %}
+        {% include "catalog/includes/card.html" with attraction=attraction only %}
+      {% empty %}
+        <p class="empty-state">По вашим условиям ничего не найдено. Попробуйте увеличить бюджет или изменить час.</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,10 +1,14 @@
 {% extends "base.html" %}
-{% block title %}{{ attraction.name }}{% endblock %}
+{% block title %}
+  {% if attraction %}{{ attraction.name }}{% else %}404 — Место не найдено{% endif %}
+{% endblock %}
 {% block content %}
   <a class="back-link" href="{% url 'catalog:list' %}">← Все места</a>
+  {% if attraction %}
   <section class="detail-panel">
     <p class="eyebrow">{{ attraction.category|default:"Без категории"|capfirst }}</p>
     <h1>{{ attraction.name }}</h1>
+    <p>Проверка : [{{ missing_variable }}]</p>
     {% include "catalog/includes/status.html" with attraction=attraction only %}
     <dl class="facts">
       <div><dt>Время работы</dt><dd>{{ attraction.open_hour|stringformat:"02d" }}:00 — {{ attraction.close_hour|stringformat:"02d" }}:00</dd></div>
@@ -13,4 +17,10 @@
     </dl>
     <p class="muted">Статус рассчитывается по часам работы и локальному времени компьютера, на котором запущен сервер.</p>
   </section>
+  {% else %}
+    <section class="empty-state">
+      <h1>404 — Достопримечательность не найдена</h1>
+      <p>Место с указанным идентификатором отсутствует в каталоге.</p>
+    </section>
+  {% endif %}
 {% endblock %}

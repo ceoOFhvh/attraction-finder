@@ -40,7 +40,7 @@ def test_pages(client, dataset, name, args, template):
 
 
 @pytest.mark.parametrize("path", [
-    "/attractions/999/", "/attractions/no-number/",
+    "/attractions/no-number/",
     "/categories/unknown/", "/missing/",
 ])
 def test_not_found(client, dataset, path):
@@ -114,3 +114,15 @@ def test_static_assets_are_found():
     assets = ["css/style.css", "js/main.js", "img/logo.svg", "img/city.svg"]
     for asset in assets:
         assert finders.find(asset)
+
+
+@pytest.mark.parametrize("debug", [True, False])
+def test_missing_attraction_uses_detail_template(client, dataset, debug):
+    with override_settings(DEBUG=debug):
+        response = client.get("/attractions/999/")
+    assert response.status_code == 404
+    assert response.context["attraction"] is None
+    assert "catalog/detail.html" in [t.name for t in response.templates]
+    html = response.content.decode()
+    assert "404 — Достопримечательность не найдена" in html
+    assert "Traceback" not in response.content.decode()

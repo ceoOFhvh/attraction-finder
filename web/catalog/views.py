@@ -1,4 +1,3 @@
-from django.http import Http404
 from django.shortcuts import render
 
 from core.attractions import sort_attractions_by_price
@@ -25,6 +24,9 @@ def attraction_detail(request, attraction_id):
         (item for item in get_attractions() if item.id == attraction_id),
         None,
     )
-    if attraction is None:
-        raise Http404("Достопримечательность не найдена")
-    return render(request, "catalog/detail.html", {"attraction": attraction})
+    return render(
+        request,
+        "catalog/detail.html",
+        {"attraction": attraction},
+        status=404 if attraction is None else 200,
+    )

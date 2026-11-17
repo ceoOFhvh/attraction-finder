@@ -36,7 +36,7 @@ SELECT a.id, a.name, c.name AS category, a.category_id,
        (a.open_hour <= ? AND ? < a.close_hour) AS is_open_now
 FROM attractions AS a
 JOIN categories AS c ON c.id = a.category_id
-WHERE a.price = 0
+WHERE a.price > 0
 ORDER BY a.search_name, a.id;
 
 -- name: search

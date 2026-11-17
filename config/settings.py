@@ -1,4 +1,4 @@
-"""ПР7: веб-данные в SQLite через sqlite3, без Django ORM."""
+"""ПР9: модели, миграции и Django ORM."""
 import os
 from pathlib import Path
 
@@ -29,7 +29,12 @@ TEMPLATES = [{
 }]
 WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
-DATABASES = {}
+DATABASES = {"default": {
+    "ENGINE": "django.db.backends.sqlite3",
+    "NAME": Path(os.environ.get("DJANGO_DB_PATH", BASE_DIR / "db.sqlite3")),
+}}
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CATALOG_PAGE_SIZE = 3
 LANGUAGE_CODE = "ru-ru"
 TIME_ZONE = "Europe/Moscow"
 USE_I18N = True
@@ -40,3 +45,10 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 DATA_FILE = BASE_DIR / "data" / "attractions.json"
 
 SQLITE_PATH = BASE_DIR / "data" / "attractions.sqlite"
+
+# Включается только явно для локальной демонстрации SQL.
+ENABLE_DEBUG_TOOLBAR = DEBUG and os.environ.get("DJANGO_TOOLBAR") == "1"
+if ENABLE_DEBUG_TOOLBAR:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+INTERNAL_IPS = ["127.0.0.1", "::1"]

@@ -1,0 +1,71 @@
+ПР9 — результаты проверки, 17.11.2026
+
+
+python manage.py check
+System check identified no issues (0 silenced).
+
+
+
+python manage.py makemigrations --check --dry-run
+No changes detected
+
+
+
+python manage.py showmigrations
+catalog
+ [X] 0001_initial
+categories
+ [X] 0001_initial
+
+
+
+python -m flake8 .
+
+
+
+python -m pytest -q -p no:cacheprovider --basetemp=C:\Users\lal50\Documents\Codex\2026-10-13\new-chat\work\pr9-final-tests
+........................................................................ [ 77%]
+.....................                                                    [100%]
+93 passed in 1.76s
+
+
+
+python manage.py demo_orm
+CREATE: создано место #6: Учебный парк
+READ: Учебный парк; Демо 699877e0
+UPDATE: цена стала 100.00
+PROTECT: категорию с местом удалить нельзя
+DELETE: учебное место удалено
+Откат: было 5, осталось 5 мест.
+
+
+
+python manage.py migrate --noinput
+Operations to perform:
+  Apply all migrations: catalog, categories
+Running migrations:
+  Applying categories.0001_initial... OK
+  Applying catalog.0001_initial... OK
+
+
+
+python manage.py loaddata data/pr9_initial.json
+Installed 7 object(s) from 1 fixture(s)
+
+
+
+python manage.py shell -c from django.test import Client; from django.test.utils import override_settings; from web.catalog.models import Attraction; assert Attraction.objects.count()==5; settings=override_settings(ALLOWED_HOSTS=["testserver"]); settings.enable(); assert Client().get("/attractions/search/").status_code==200; print("Clean migration + fixture + search page: OK")
+2 objects imported automatically (use -v 2 for details).
+
+Clean migration + fixture + search page: OK
+
+
+
+Все 5 записей и 2 категории сверены с источником по полям и ID.
+Исходные SQLite и SQL побайтно не изменены после резервного копирования.
+Chrome: 9 страниц при 1440 и 390 px, ошибок ресурсов/JS и переполнения нет.
+Проверены пагинация, сохранение GET, поиск по описанию, неверный ввод.
+Debug Toolbar: подробная страница — один SELECT с INNER JOIN.
+DOCX экспортирован Word, все 3 страницы визуально проверены.
+Прямой sqlite3 оставлен только в историческом db/ и мосте import_legacy.
+В services и представлениях ручных SQL-запросов нет.

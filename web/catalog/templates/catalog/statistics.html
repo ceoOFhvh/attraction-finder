@@ -34,4 +34,7 @@
       <li><a href="{% url 'categories:detail' category.name %}">{{ category.name|capfirst }}</a> — {{ category.places_count }}</li>
     {% empty %}<li>Категорий с таким количеством мест нет.</li>{% endfor %}</ul>
   {% endif %}
+<h2>Продолжительность работы</h2>
+<ul>{% for item in opening_hours %}<li>{{ item.name }} — {{ item.category_name }}: {{ item.hours_open }} ч.</li>
+{% empty %}<li>Мест пока нет.</li>{% endfor %}</ul>
 {% endblock %}

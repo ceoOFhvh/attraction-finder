@@ -4,7 +4,7 @@
   <div class="page-heading">
     <p class="eyebrow">Прогулка без расходов</p>
     <h1>Бесплатные места</h1>
-    <p class="muted">Мест с бесплатным входом: {{ attractions|length }}.</p>
+    <p class="muted">Мест с бесплатным входом: {{ page_obj.paginator.count }}.</p>
   </div>
   <div class="card-grid">
     {% for attraction in attractions %}
@@ -13,4 +13,5 @@
       <p class="empty-state">Бесплатных мест пока нет.</p>
     {% endfor %}
   </div>
+{% include "includes/pagination.html" %}
 {% endblock %}

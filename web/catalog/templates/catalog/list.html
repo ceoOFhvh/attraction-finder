@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Места в городе{% endblock %}
 {% block content %}
-  <div class="page-heading"><p class="eyebrow">Исследуйте город</p><h1>Места для новых впечатлений</h1><p class="muted">В каталоге: {{ attractions|length }}. Выберите своё следующее открытие.</p></div>
+  <div class="page-heading"><p class="eyebrow">Исследуйте город</p><h1>Места для новых впечатлений</h1><p class="muted">В каталоге: {{ page_obj.paginator.count }}. Выберите своё следующее открытие.</p></div>
   <div class="toolbar">
     <p>Сортировка:
       <a href="{% url 'catalog:list' %}"{% if sort == 'name' %} aria-current="true"{% endif %}>По названию</a>
@@ -18,4 +18,5 @@
   </div>
   <p id="no-open-places" class="empty-state" role="status" hidden>Сейчас все места закрыты. Посмотрите часы работы в карточках.</p>
   <noscript><p class="muted">Фильтр открытых мест доступен при включённом JavaScript.</p></noscript>
+{% include "includes/pagination.html" %}
 {% endblock %}

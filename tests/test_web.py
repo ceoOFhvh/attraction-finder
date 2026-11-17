@@ -4,14 +4,17 @@ from unittest.mock import patch
 
 import pytest
 
-from db.database import get_connection
-from db.import_json import import_data
+from web.catalog.models import Attraction
+from web.categories.models import Category
+
 from django.test import override_settings
 from django.urls import reverse
 
+pytestmark = pytest.mark.django_db
+
 
 @pytest.fixture
-def dataset(tmp_path, settings):
+def dataset(tmp_path, settings, db):
     records = [
         {"id": 1, "name": "Музей", "category": "музей",
          "open_hour": 10, "close_hour": 18, "price": 350.0},
@@ -22,7 +25,13 @@ def dataset(tmp_path, settings):
     path.write_text(json.dumps(records), encoding="utf-8")
     settings.DATA_FILE = path
     settings.SQLITE_PATH = tmp_path / "web.sqlite"
-    import_data(path, settings.SQLITE_PATH)
+    for row in records:
+        category, _ = Category.objects.get_or_create(name=row["category"])
+        Attraction.objects.create(
+            id=row["id"], name=row["name"], category=category,
+            open_hour=row["open_hour"], close_hour=row["close_hour"],
+            price=row["price"],
+        )
     return path
 
 
@@ -60,13 +69,8 @@ def test_not_found(client, dataset, path):
     ("/categories/", "Категории появятся"),
 ])
 def test_empty_lists(client, dataset, settings, url, expected):
-    conn = get_connection(settings.SQLITE_PATH, create=True)
-    try:
-        conn.execute("DELETE FROM attractions")
-        conn.execute("DELETE FROM categories")
-        conn.commit()
-    finally:
-        conn.close()
+    Attraction.objects.all().delete()
+    Category.objects.all().delete()
     response = client.get(url)
     assert response.status_code == 200
     assert expected in response.content.decode()
@@ -76,7 +80,9 @@ def test_data_reloaded_and_escaped(client, dataset, settings):
     records = json.loads(dataset.read_text(encoding="utf-8"))
     records[0]["name"] = "<script>alert(1)</script>"
     dataset.write_text(json.dumps(records), encoding="utf-8")
-    import_data(dataset, settings.SQLITE_PATH)
+    place = Attraction.objects.get(pk=1)
+    place.name = records[0]["name"]
+    place.save()
     html = client.get("/attractions/1/").content.decode()
     assert "&lt;script&gt;alert(1)&lt;/script&gt;" in html
     assert "<script>alert(1)</script>" not in html
@@ -84,14 +90,14 @@ def test_data_reloaded_and_escaped(client, dataset, settings):
 
 def test_price_sort_and_free_label(client, dataset):
     response = client.get("/attractions/?sort=price")
-    assert [item["id"] for item in response.context["attractions"]] == [2, 1]
+    assert [item.id for item in response.context["attractions"]] == [2, 1]
     assert "Бесплатно" in response.content.decode()
 
 
 def test_category_contains_only_matching_places(client, dataset):
     response = client.get(reverse("categories:detail", args=["МУЗЕЙ"]))
     assert response.status_code == 200
-    assert [item["id"] for item in response.context["attractions"]] == [1]
+    assert [item.id for item in response.context["attractions"]] == [1]
 
 
 @pytest.mark.parametrize("hour,label", [
@@ -160,7 +166,7 @@ def test_new_pages(client, dataset, url, template):
 def test_search_filters(client, dataset, params, ids):
     response = client.get("/attractions/search/", params)
     assert response.status_code == 200
-    assert [r["id"] for r in response.context["attractions"]] == ids
+    assert [r.id for r in response.context["attractions"]] == ids
 
 
 @pytest.mark.parametrize("params", [
@@ -182,7 +188,7 @@ def test_statistics_and_free_page(client, dataset):
     response = client.get("/attractions/statistics/?threshold=0")
     assert len(response.context["popular"]) == 2
     response = client.get("/attractions/free/")
-    assert [r["id"] for r in response.context["attractions"]] == [2]
+    assert [r.id for r in response.context["attractions"]] == [2]
 
 
 def test_invalid_statistics_input(client, dataset):
@@ -192,13 +198,9 @@ def test_invalid_statistics_input(client, dataset):
 
 
 def test_database_updates_appear_without_reimport(client, dataset, settings):
-    conn = get_connection(settings.SQLITE_PATH, create=True)
-    try:
-        conn.execute("UPDATE attractions SET name=? WHERE id=?",
-                     ("Название из SQLite", 1))
-        conn.commit()
-    finally:
-        conn.close()
+    place = Attraction.objects.get(pk=1)
+    place.name = "Название из SQLite"
+    place.save()
     html = client.get("/attractions/1/").content.decode()
     assert "Название из SQLite" in html
     assert "Название из SQLite" not in dataset.read_text(encoding="utf-8")

@@ -1,16 +1,14 @@
 from django.shortcuts import render
 from django.utils import timezone
 
-from db.queries import fetch_all, fetch_one
-from web.services import hour_parameters
+from web import services
 
 
 def index(request):
     return render(request, "homepage/index.html", {
-        "attractions": fetch_all("home_preview", hour_parameters() + (3, 0)),
-        "categories": fetch_all("category_list"),
-        "overview": fetch_one("overview"),
-        "today": timezone.localdate(),
+        "attractions": services.home_preview(),
+        "categories": services.category_list(),
+        "overview": services.overview(), "today": timezone.localdate(),
     })
 
 

@@ -1,0 +1,88 @@
+[
+{
+  "model": "categories.category",
+  "pk": 1,
+  "fields": {
+    "name": "музей",
+    "name_key": "музей"
+  }
+},
+{
+  "model": "categories.category",
+  "pk": 2,
+  "fields": {
+    "name": "парк",
+    "name_key": "парк"
+  }
+},
+{
+  "model": "catalog.attraction",
+  "pk": 1,
+  "fields": {
+    "name": "Городской краеведческий музей",
+    "search_name": "городской краеведческий музей",
+    "description": null,
+    "search_description": "",
+    "category": 1,
+    "open_hour": 10,
+    "close_hour": 18,
+    "price": "350.00"
+  }
+},
+{
+  "model": "catalog.attraction",
+  "pk": 2,
+  "fields": {
+    "name": "Центральный парк",
+    "search_name": "центральный парк",
+    "description": null,
+    "search_description": "",
+    "category": 2,
+    "open_hour": 6,
+    "close_hour": 23,
+    "price": "0.00"
+  }
+},
+{
+  "model": "catalog.attraction",
+  "pk": 3,
+  "fields": {
+    "name": "Художественная галерея",
+    "search_name": "художественная галерея",
+    "description": null,
+    "search_description": "",
+    "category": 1,
+    "open_hour": 11,
+    "close_hour": 19,
+    "price": "250.00"
+  }
+},
+{
+  "model": "catalog.attraction",
+  "pk": 4,
+  "fields": {
+    "name": "Эрмитаж",
+    "search_name": "эрмитаж",
+    "description": null,
+    "search_description": "",
+    "category": 1,
+    "open_hour": 10,
+    "close_hour": 18,
+    "price": "1000.00"
+  }
+},
+{
+  "model": "catalog.attraction",
+  "pk": 5,
+  "fields": {
+    "name": "Парк Победы",
+    "search_name": "парк победы",
+    "description": "Парк для прогулок",
+    "search_description": "парк для прогулок",
+    "category": 2,
+    "open_hour": 6,
+    "close_hour": 23,
+    "price": "0.00"
+  }
+}
+]
